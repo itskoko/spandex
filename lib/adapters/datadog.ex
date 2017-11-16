@@ -17,7 +17,9 @@ defmodule Spandex.Adapters.Datadog do
   @spec start_trace(String.t) :: {:ok, term} | {:error, term}
   def start_trace(name) do
     if get_trace() do
-      Logger.error("Tried to start a trace over top of another trace.")
+      error = "Tried to start a trace over top of another trace."
+      Logger.error(error)
+      {:error, error}
     else
       trace_id = Utils.next_id()
       top_span =
